@@ -20,7 +20,7 @@ type HttpHeader struct {
 func (responseWriter HttpResponseWriter) Write(bytes []byte) int {
 	length, err := (*responseWriter.Value).Write(bytes)
 	if err != nil {
-    fmt.Println("HttpResponseWriter.Write error: ",err)
+    fmt.Println("HttpResponseWriter.Write error: ",err.Error())
 		return 0
 	}
 	return length

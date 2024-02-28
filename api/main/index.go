@@ -10,6 +10,5 @@ func OnServerlessRequest(responseWriter http.ResponseWriter, request *http.Reque
 }
 
 func HandleRequest(responseWriter HttpResponseWriter, request *http.Request) {
-	responseWriter.WriteHeader(200)
 	responseWriter.Write([]byte("Hello World"))
 }
