@@ -5,19 +5,19 @@ Extensions for my convenience.
 Mostly additions to mirror certain JavaScript syntax.
 */
 import (
-	. "fmt"
-	"net/http"
+  . "fmt"
+  "net/http"
   . "unsafe"
 )
 
 func ObjectServerlessRequest(responseWriter http.ResponseWriter, request *http.Request) {
-	ReflectRequest(&responseWriter, request)
+  ReflectRequest(&responseWriter, request)
 }
 
 var Null Any = nil
 
 func Interfacefy(i interface{}) interface{} {
-	return i
+  return i
 }
 
 type Ptr struct{
@@ -27,7 +27,7 @@ type Ptr struct{
 type Struct struct {}
 
 type ExtendedMap struct {
-	Map map[string]Any
+  Map map[string]Any
 }
 
 func MakeMap() map[string]Any {
@@ -36,10 +36,10 @@ func MakeMap() map[string]Any {
 }
 
 func (f ExtendedMap) get(key Any) Any {
-	return f.Map[ToString(key)]
+  return f.Map[ToString(key)]
 }
 func (f ExtendedMap) set(key Any, value Any) {
-	f.Map[ToString(key)] = value
+  f.Map[ToString(key)] = value
 }
 
 type Any any
@@ -47,30 +47,30 @@ type Any any
 type Interface interface{}
 
 func Object() map[string]Any {
-	obj := (make(map[string]Any))
-	return obj
+  obj := (make(map[string]Any))
+  return obj
 }
 
 var Global = Object()
 
 type AnyObject struct {
-	Value      Any
-	Properties map[string]*Any
+  Value      Any
+  Properties map[string]*Any
 }
 
 func Pass(Any) Any { return nil }
 
 func ToString(str Any) string {
-	return Sprint(str)
+  return Sprint(str)
 }
 
 func Stringify(str Any) string {
-	switch s := str.(type) {
-	case string:
-		return s
-	default:
-		return ToString(s)
-	}
+  switch s := str.(type) {
+  case string:
+    return s
+  default:
+    return ToString(s)
+  }
 }
 
 func IntifyUnsafe(a Any) int {
