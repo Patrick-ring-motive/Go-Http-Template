@@ -43,43 +43,9 @@ func OnServerlessRequest(responseWriter http.ResponseWriter, request *http.Reque
 }
 
 func HandleRequest(responseWriter *http.ResponseWriter, request *http.Request) {
-	hostTarget := HostTargetList[0]
-	hostProxy := request.Host
-	if request.URL.Query().Has("hostname") {
-		hostTarget = request.URL.Query().Get("hostname")
-	}
-	request.Host = hostTarget
-	pathname := "https://" + hostTarget +
-		strings.Replace(
-			strings.Replace(
-				request.URL.RequestURI(),
-				"?hostname="+request.Host, "", -1),
-			"&hostname="+request.Host, "", -1)
-	response := ProxyFetch(pathname, request)
 
-	for i := 0; i < HostTargetList_length; i++ {
-		if response.StatusCode < 400 {
-			break
-		}
-		if request.Host == HostTargetList[i] {
-			continue
-		}
-		request.Host = HostTargetList[i]
-		pathname = "https://" + HostTargetList[i] +
-			strings.Replace(
-				strings.Replace(
-					request.URL.RequestURI(),
-					"?hostname="+request.Host, "", -1),
-				"&hostname="+request.Host, "", -1)
-		response = ProxyFetch(pathname, request)
-	}
+	(*responseWriter).WriteHeader(200)
 
-	bodyPromise := AsyncIoReadAll(response)
-	ProxyResponseHeaders(responseWriter, response, hostTarget, hostProxy)
-	(*responseWriter).WriteHeader(response.StatusCode)
-	bodyBytes, err := AwaitIoReadAll(bodyPromise)
-
-  bodyBytes = []byte(string(bodyBytes));
 	defer (*responseWriter).Write([]byte("Hello World"))
 
 	if err != nil {
