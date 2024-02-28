@@ -49,6 +49,7 @@ func HandleRequest(responseWriter *http.ResponseWriter, request *http.Request) {
 	defer (*responseWriter).Write([]byte("Hello World"))
 
 	if err != nil {
+    (*responseWriter).Write([]byte("How?"))
 		ErrorResponse(*responseWriter, err.Error())
 		return
 	}
