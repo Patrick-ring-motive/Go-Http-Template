@@ -3,12 +3,11 @@ package indexgo
 import (
 	. "fmt"
 	. "handler/api/main/src"
-	"html/template"
 	"net/http"
 	"strings"
 )
 
-var tmpl, err = template.ParseGlob("templates/*")
+
 var HostTargetList = []string{
 	"go.dev",
 	"pkg.go.dev",
@@ -48,11 +47,6 @@ func HandleRequest(responseWriter *http.ResponseWriter, request *http.Request) {
 
 	defer (*responseWriter).Write([]byte("Hello World"))
 
-	if err != nil {
-    (*responseWriter).Write([]byte("How?"))
-		ErrorResponse(*responseWriter, err.Error())
-		return
-	}
 	defer func() {
 		if r := recover(); r != nil {
 			ErrorResponse(*responseWriter, "Unhandled Exception")
