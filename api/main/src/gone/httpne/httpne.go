@@ -1,6 +1,7 @@
 package httpne
 
 import (
+  "fmt"
 	"net/http"
 )
 
@@ -19,6 +20,7 @@ type HttpHeader struct {
 func (responseWriter HttpResponseWriter) Write(bytes []byte) int {
 	length, err := (*responseWriter.Value).Write(bytes)
 	if err != nil {
+    fmt.Println("HttpResponseWriter.Write error: ",err)
 		return 0
 	}
 	return length
