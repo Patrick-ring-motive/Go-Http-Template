@@ -4,6 +4,7 @@ import (
 	. "fmt"
 	. "handler/api/main"
 	. "net/http"
+  . "handler/api/main/src/gone/httpne"
 )
 
 
@@ -17,5 +18,5 @@ func main() {
 }
 
 func OnRequest(responseWriter ResponseWriter, request *Request) {
-	HandleRequest(&responseWriter, request)
+  HandleRequest(HttpResponseWriter{Value: &responseWriter} , request)
 }
