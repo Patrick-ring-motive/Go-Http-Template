@@ -12,7 +12,6 @@ import (
 
 func main() {
 	HandleFunc("/", OnRequest)
-	HandleFunc("/search*", OnRequest)
 	ListenAndServe(":0", nil)
 	Print("http server up!")
 }
