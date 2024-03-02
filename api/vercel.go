@@ -7,5 +7,5 @@ import (
 )
 
 func OnRequest(responseWriter http.ResponseWriter, request *http.Request) {
-  HandleRequest(HttpResponseWriter{Value: &responseWriter} , request)
+  HandleRequest(HttpResponseWriter{Value: &responseWriter} , HttpRequest{Value:request})
 }

@@ -17,5 +17,5 @@ func main() {
 }
 
 func OnRequest(responseWriter ResponseWriter, request *Request) {
-  HandleRequest(HttpResponseWriter{Value: &responseWriter} , request)
+  HandleRequest(HttpResponseWriter{Value: &responseWriter} , HttpRequest{Value:request})
 }
