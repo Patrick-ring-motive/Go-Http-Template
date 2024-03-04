@@ -3,6 +3,7 @@ package httpne
 import (
 	"crypto/tls"
 	"fmt"
+	utils "github.com/Patrick-ring-motive/utils"
 	"io"
 	"net/http"
 	"strings"
@@ -14,14 +15,8 @@ var NoError = true
 var NoPanic = true
 
 func null[T any](t func(T)) T {
-  n := error(nil)
+	n := error(nil)
 	return *(*T)(unsafe.Pointer(&n))
-}
-
-func pass(a any) {}
-
-func ptr[T any](value T) *T {
-	return &value
 }
 
 type HttpResponseWriter struct {
@@ -61,7 +56,7 @@ func (responseWriter HttpResponseWriter) WriteHeader(statusCode int) {
 }
 
 func (responseWriter HttpResponseWriter) Header() HttpHeader {
-	return HttpHeader{Value: ptr((*responseWriter.Value).Header())}
+	return HttpHeader{Value: utils.Ptr((*responseWriter.Value).Header())}
 }
 
 type HttpClient struct {
@@ -75,35 +70,32 @@ type HttpRequest struct {
 type HttpResponse struct {
 	Value *http.Response
 }
-func HTTP_RESPONSE(h HttpResponse) {}
-
-func _TLS_CONNECTION_STATE(t *tls.ConnectionState) {}
 
 func (client HttpClient) Do(req HttpRequest) HttpResponse {
-	httpRes := null(HTTP_RESPONSE)
-  if NoPanic {
-    defer func() {
-      if r := recover(); r != nil {
-        fmt.Println("579 HttpClient.Do panic: ", r)
-        status := fmt.Sprint("579 HttpClient.Do panic: ", r)
-        body := io.NopCloser(strings.NewReader(status))
-        httpRes = HttpResponse{Value: &http.Response{Status: status, StatusCode: 579, Proto: "HTTP/1.0", ProtoMajor: 1, ProtoMinor: 0, Header: req.Value.Header, Body: body, ContentLength: -1, TransferEncoding: nil, Close: true, Uncompressed: true, Trailer: req.Value.Trailer, Request: req.Value, TLS: null(_TLS_CONNECTION_STATE)}}
-      }
-    }()
-  }
+	httpRes := utils.NilOfType(func(h HttpResponse) {})
+	if NoPanic {
+		defer func() {
+			if r := recover(); r != nil {
+				fmt.Println("579 HttpClient.Do panic: ", r)
+				status := fmt.Sprint("579 HttpClient.Do panic: ", r)
+				body := io.NopCloser(strings.NewReader(status))
+				httpRes = HttpResponse{Value: &http.Response{Status: status, StatusCode: 579, Proto: "HTTP/1.0", ProtoMajor: 1, ProtoMinor: 0, Header: req.Value.Header, Body: body, ContentLength: -1, TransferEncoding: nil, Close: true, Uncompressed: true, Trailer: req.Value.Trailer, Request: req.Value, TLS: utils.NilOfType(func(t *tls.ConnectionState) {})}}
+			}
+		}()
+	}
 	res, err := client.Value.Do(req.Value)
 	httpRes = HttpResponse{Value: res}
-  if (res == nil) && (err == nil) && NoNil{
-    fmt.Println("559 HttpClient.Do nil")
-    status := "559 HttpClient.Do nil"
-    body := io.NopCloser(strings.NewReader(status))
-    httpRes = HttpResponse{Value: &http.Response{Status: status, StatusCode: 559, Proto: "HTTP/1.0", ProtoMajor: 1, ProtoMinor: 0, Header: req.Value.Header, Body: body, ContentLength: -1, TransferEncoding: nil, Close: true, Uncompressed: true, Trailer: req.Value.Trailer, Request: req.Value, TLS: null(_TLS_CONNECTION_STATE)}}
-  }
+	if (res == nil) && (err == nil) && NoNil {
+		fmt.Println("559 HttpClient.Do nil")
+		status := "559 HttpClient.Do nil"
+		body := io.NopCloser(strings.NewReader(status))
+		httpRes = HttpResponse{Value: &http.Response{Status: status, StatusCode: 559, Proto: "HTTP/1.0", ProtoMajor: 1, ProtoMinor: 0, Header: req.Value.Header, Body: body, ContentLength: -1, TransferEncoding: nil, Close: true, Uncompressed: true, Trailer: req.Value.Trailer, Request: req.Value, TLS: utils.NilOfType(func(t *tls.ConnectionState) {})}}
+	}
 	if (err != nil) && NoError {
 		fmt.Println("569 HttpClient.Do error: ", err.Error())
 		status := fmt.Sprint("569 HttpClient.Do error: ", err.Error())
 		body := io.NopCloser(strings.NewReader(status))
-		httpRes = HttpResponse{Value: &http.Response{Status: status, StatusCode: 569, Proto: "HTTP/1.0", ProtoMajor: 1, ProtoMinor: 0, Header: req.Value.Header, Body: body, ContentLength: -1, TransferEncoding: nil, Close: true, Uncompressed: true, Trailer: req.Value.Trailer, Request: req.Value, TLS: null(_TLS_CONNECTION_STATE)}}
+		httpRes = HttpResponse{Value: &http.Response{Status: status, StatusCode: 569, Proto: "HTTP/1.0", ProtoMajor: 1, ProtoMinor: 0, Header: req.Value.Header, Body: body, ContentLength: -1, TransferEncoding: nil, Close: true, Uncompressed: true, Trailer: req.Value.Trailer, Request: req.Value, TLS: utils.NilOfType(func(t *tls.ConnectionState) {})}}
 	}
 	return httpRes
 }
