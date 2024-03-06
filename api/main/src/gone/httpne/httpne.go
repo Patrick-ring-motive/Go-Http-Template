@@ -7,17 +7,12 @@ import (
 	"io"
 	"net/http"
 	"strings"
-	"unsafe"
 )
 
-var NoNil = true
-var NoError = true
-var NoPanic = true
+var HttpNoNil = true
+var HttpNoError = true
+var HttpNoPanic = true
 
-func null[T any](t func(T)) T {
-	n := error(nil)
-	return *(*T)(unsafe.Pointer(&n))
-}
 
 type HttpResponseWriter struct {
 	Value *http.ResponseWriter
@@ -29,7 +24,7 @@ type HttpHeader struct {
 
 func (responseWriter HttpResponseWriter) Write(bytes []byte) int {
 	length, err := (*responseWriter.Value).Write(bytes)
-	if NoPanic {
+	if HttpNoPanic {
 		defer func() {
 			if r := recover(); r != nil {
 				fmt.Println("HttpResponseWriter.Write panic: ", r)
@@ -37,7 +32,7 @@ func (responseWriter HttpResponseWriter) Write(bytes []byte) int {
 			}
 		}()
 	}
-	if (err != nil) && NoError {
+	if (err != nil) && HttpNoError {
 		fmt.Println("HttpResponseWriter.Write error: ", err.Error())
 		length = 0
 	}
@@ -45,7 +40,7 @@ func (responseWriter HttpResponseWriter) Write(bytes []byte) int {
 }
 
 func (responseWriter HttpResponseWriter) WriteHeader(statusCode int) {
-	if NoPanic {
+	if HttpNoPanic {
 		defer func() {
 			if r := recover(); r != nil {
 				fmt.Println("HttpResponseWriter.WriteHeader panic: ", r)
@@ -73,7 +68,7 @@ type HttpResponse struct {
 
 func (client HttpClient) Do(req HttpRequest) HttpResponse {
 	httpRes := utils.NilOfType(func(h HttpResponse) {})
-	if NoPanic {
+	if HttpNoPanic {
 		defer func() {
 			if r := recover(); r != nil {
 				fmt.Println("579 HttpClient.Do panic: ", r)
@@ -85,13 +80,13 @@ func (client HttpClient) Do(req HttpRequest) HttpResponse {
 	}
 	res, err := client.Value.Do(req.Value)
 	httpRes = HttpResponse{Value: res}
-	if (res == nil) && (err == nil) && NoNil {
+	if (res == nil) && (err == nil) && HttpNoNil {
 		fmt.Println("559 HttpClient.Do nil")
 		status := "559 HttpClient.Do nil"
 		body := io.NopCloser(strings.NewReader(status))
 		httpRes = HttpResponse{Value: &http.Response{Status: status, StatusCode: 559, Proto: "HTTP/1.0", ProtoMajor: 1, ProtoMinor: 0, Header: req.Value.Header, Body: body, ContentLength: -1, TransferEncoding: nil, Close: true, Uncompressed: true, Trailer: req.Value.Trailer, Request: req.Value, TLS: utils.NilOfType(func(t *tls.ConnectionState) {})}}
 	}
-	if (err != nil) && NoError {
+	if (err != nil) && HttpNoError {
 		fmt.Println("569 HttpClient.Do error: ", err.Error())
 		status := fmt.Sprint("569 HttpClient.Do error: ", err.Error())
 		body := io.NopCloser(strings.NewReader(status))
