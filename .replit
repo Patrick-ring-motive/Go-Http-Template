@@ -13,7 +13,3 @@ channel = "stable-23_05"
 
 [gitHubImport]
 requiredFiles = [".replit", "replit.nix"]
-
-[[ports]]
-localPort = 33897
-externalPort = 80
