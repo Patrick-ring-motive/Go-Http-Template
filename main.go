@@ -4,18 +4,21 @@ import (
 	. "fmt"
 	. "handler/api/main"
 	. "net/http"
-  . "handler/api/main/src/gone/httpne"
+  . "github.com/Patrick-ring-motive/httpne"
 )
 
 
 
 
 func main() {
+  Println("starting")
 	HandleFunc("/", OnRequest)
+  Println("handling0")
 	ListenAndServe(":0", nil)
 	Print("http server up!")
 }
 
 func OnRequest(responseWriter ResponseWriter, request *Request) {
-  HandleRequest(HttpResponseWriter{Value: &responseWriter} , HttpRequest{Value:request})
+  Println("onrequest")
+  HandleRequest(HttpResponseWriter{Value:&responseWriter} , HttpRequest{Value:request})
 }

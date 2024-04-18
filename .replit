@@ -2,14 +2,58 @@ run = ["make", "run"]
 entrypoint = "main.go"
 hidden = ["Makefile", "main"]
 
+modules = ["go-1.21:v2-20231201-3b22c78"]
+
 [languages.go]
 pattern = "**/*.go"
 
 [languages.go.languageServer]
 start = "gopls"
 
+
+
 [nix]
 channel = "stable-23_05"
 
 [gitHubImport]
-requiredFiles = [".replit", "replit.nix"]
+requiredFiles = [".replit"]
+
+[[ports]]
+localPort = 3000
+
+[[ports]]
+localPort = 32867
+
+[[ports]]
+localPort = 33537
+
+[[ports]]
+localPort = 34059
+
+[[ports]]
+localPort = 38213
+
+[[ports]]
+localPort = 39359
+
+[[ports]]
+localPort = 39631
+externalPort = 80
+
+[[ports]]
+localPort = 40705
+
+[[ports]]
+localPort = 40997
+
+[[ports]]
+localPort = 41575
+
+[[ports]]
+localPort = 44837
+
+[[ports]]
+localPort = 45675
+
+[[ports]]
+localPort = 46563

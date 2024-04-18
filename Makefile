@@ -1,11 +1,11 @@
 .PHONY: run
 run: main
-	go run main
+	go run handler
 
 main: *.go go.mod
 	bash ./build.sh &
-	go build -o main main.go
-	chmod +x ./main
+	go build -o handler main.go
+	chmod +x ./handler
 
 .PHONY: all
 all: main
